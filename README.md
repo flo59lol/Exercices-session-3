@@ -41,6 +41,11 @@ npx jest 03-validation
 Depuis ce dossier, `npm test` lance les exercices 02 et 03. L'exercice
 04 n'a pas de test Jest : il se vérifie sur GitHub.
 
+Les applications utilisent une clé JWT aléatoire en développement.
+En production, définissez `JWT_SECRET` dans l'environnement avec une
+valeur secrète et stable ; l'application refuse de démarrer si elle
+est absente.
+
 ## Le principe
 
 Les exercices 01 à 03 contiennent deux fichiers de code :

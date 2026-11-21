@@ -49,5 +49,5 @@ rien côté sécurité. Pour vérifier votre version :
 - poussez un projet qui contient le `lodash` 4.17.20 de l'exercice 01 :
   l'étape `npm audit` doit échouer ;
 - regardez ce que l'étape Semgrep trouve sur l'API de cette session.
-  Une trouvaille ne veut pas dire que votre workflow est faux : lisez
-  ce qu'elle signale.
+  Une trouvaille ne veut pas dire que le workflow est faux : lisez ce
+  qu'elle signale et corrigez le problème plutôt que d'ignorer le scan.

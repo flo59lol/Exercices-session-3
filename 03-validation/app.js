@@ -2,10 +2,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('node:crypto');
 
-// Clé de signature des jetons. En dur pour l'instant :
-// la session 4 la sortira du code (variable d'environnement).
-const JWT_SECRET = 'cle-de-dev-ilaria-a-ne-pas-garder';
+const JWT_SECRET =
+  process.env.JWT_SECRET || randomBytes(32).toString('hex');
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET doit être défini en production');
+}
 
 const app = express();
 app.use(express.json());
