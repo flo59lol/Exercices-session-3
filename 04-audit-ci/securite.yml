@@ -2,6 +2,9 @@
 # À copier dans .github/workflows/securite.yml de votre projet
 name: Sécurité
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]
@@ -17,4 +20,16 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm test
+      - name: Audit des dépendances
+        run: npm audit --audit-level=high
+      - name: Tests
+        run: npm test
+
+  semgrep:
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v7
+      - name: Analyse Semgrep
+        run: semgrep scan --config p/javascript --error
