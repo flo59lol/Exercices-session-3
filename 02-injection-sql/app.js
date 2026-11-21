@@ -101,6 +101,10 @@ app.post('/login', async (req, res) => {
 const listerTaches = db.prepare(
   'SELECT id, owner_id AS ownerId, title FROM tasks WHERE owner_id = ?'
 );
+const rechercherTaches = db.prepare(
+  'SELECT id, owner_id AS ownerId, title FROM tasks ' +
+    'WHERE title LIKE ? AND owner_id = ?'
+);
 
 app.get('/tasks', authentifier, (req, res) => {
   res.json(listerTaches.all(req.user.id));
@@ -109,13 +113,9 @@ app.get('/tasks', authentifier, (req, res) => {
 // Recherche dans les titres de ses tâches : GET /tasks/search?q=RFC
 // Placée avant /tasks/:id, sinon Express y verrait l'id « search »
 app.get('/tasks/search', authentifier, (req, res) => {
-  const q = req.query.q || '';
-  const sql =
-    'SELECT id, owner_id AS ownerId, title FROM tasks ' +
-    "WHERE title LIKE '%" + q + "%' " +
-    'AND owner_id = ' + req.user.id;
+  const q = String(req.query.q || '');
   try {
-    res.json(db.prepare(sql).all());
+    res.json(rechercherTaches.all(`%${q}%`, req.user.id));
   } catch {
     res.status(500).json({ error: 'Erreur interne' });
   }
