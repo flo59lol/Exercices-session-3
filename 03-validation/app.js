@@ -84,17 +84,54 @@ app.get('/tasks', authentifier, (req, res) => {
 
 let prochainId = 5;
 
+function validerTache(corps) {
+  if (!corps || typeof corps !== 'object' || Array.isArray(corps)) {
+    return { erreur: 'Le corps de la tâche doit être un objet' };
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(corps, 'title')) {
+    return { erreur: 'Le titre est obligatoire' };
+  }
+  if (typeof corps.title !== 'string') {
+    return { erreur: 'Le titre doit être un texte' };
+  }
+
+  const title = corps.title.trim();
+  if (title.length < 1 || title.length > 120) {
+    return { erreur: 'Le titre doit contenir de 1 à 120 caractères' };
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(corps, 'done') &&
+    typeof corps.done !== 'boolean'
+  ) {
+    return { erreur: 'Le champ "done" doit être un booléen' };
+  }
+
+  return {
+    title,
+    done: Object.prototype.hasOwnProperty.call(corps, 'done')
+      ? corps.done
+      : false,
+  };
+}
+
 // Crée une tâche pour l'utilisateur connecté.
 // Corps attendu : { title, done }, done valant false par défaut.
 app.post('/tasks', authentifier, (req, res) => {
+  const validee = validerTache(req.body);
+  if (validee.erreur) {
+    return res.status(400).json({ error: validee.erreur });
+  }
+
   const task = {
     id: prochainId++,
     ownerId: req.user.id,
-    done: false,
-    ...req.body,
+    title: validee.title,
+    done: validee.done,
   };
   tasks.push(task);
   res.status(201).json(task);
 });
 
-module.exports = { app, users, tasks, JWT_SECRET };
+module.exports = { app, users, tasks, JWT_SECRET, validerTache };
