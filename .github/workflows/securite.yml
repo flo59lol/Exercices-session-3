@@ -30,4 +30,4 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Analyse Semgrep
-        run: semgrep scan --config p/javascript --error
+        run: semgrep scan --config p/javascript --error --verbose
