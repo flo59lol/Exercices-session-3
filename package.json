@@ -1,0 +1,28 @@
+{
+  "name": "securite-applicative-session-3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sécurité applicative avancée, session 3 : exercices",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/01-npm-audit/"
+    ]
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "jest": "^30.0.0",
+    "supertest": "^7.1.0"
+  }
+}

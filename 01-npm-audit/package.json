@@ -1,0 +1,23 @@
+{
+  "name": "securite-applicative-session-3-npm-audit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Session 3, exercice 01 : une dépendance vulnérable",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.18.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  }
+}
